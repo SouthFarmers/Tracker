@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Track your Shuttle</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <p>For Driver </p>
+  <button ion-button block (click)="driver()" class="homebutton">Driver</button>
+
+  <p>For Passenger </p>
+
+  <ion-item>
+    <ion-select [(ngModel)]="selectedShuttle">
+          <ion-option *ngFor="let shuttle of shuttle_num;"
+                  [value]="shuttle">{{shuttle}}</ion-option>
+  </ion-select>
+
+  <p>You have selected Shuttle {{selectedShuttle}} </p>
+
+  </ion-item>
+
+  <button ion-button block (click)="user()" class="homebutton">Passenger</button>
+</ion-content>
