@@ -3,8 +3,6 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
-import {UserPage} from "../pages/user/user";
-import {DriverPage} from "../pages/driver/driver";
 import {Distance} from "../providers/distance";
 
 @Component({

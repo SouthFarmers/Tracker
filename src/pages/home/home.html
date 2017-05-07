@@ -4,21 +4,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <p>For Driver </p>
-  <button ion-button block (click)="driver()" class="homebutton">Driver</button>
+<ion-content>
 
-  <p>For Passenger </p>
+  <ion-item-group style = "padding-bottom: 20px; padding-top: 20px">
+    <ion-item-divider color="light">For Driver</ion-item-divider>
+    <button ion-button block (click)="driver()" class="homebutton">Driver</button>
+  </ion-item-group>
 
-  <ion-item>
-    <ion-select [(ngModel)]="selectedShuttle">
-          <ion-option *ngFor="let shuttle of shuttle_num;"
-                  [value]="shuttle">{{shuttle}}</ion-option>
-  </ion-select>
 
-  <p>You have selected Shuttle {{selectedShuttle}} </p>
 
-  </ion-item>
+  <ion-item-group>
+    <ion-item-divider color="light">For Passenger</ion-item-divider>
+    <ion-item style = "padding-top: 15px">
+      <ion-label>Shuttle</ion-label>
+      <ion-select [(ngModel)]="selectedShuttle" interface="popover">
+        <ion-option value="1">1</ion-option>
+        <ion-option value="2">2</ion-option>
+        <ion-option value="3">3</ion-option>
+        <ion-option value="4">4</ion-option>
+        <ion-option value="5">5</ion-option>
+        <ion-option value="6">6</ion-option>
+      </ion-select>
+    </ion-item>
 
-  <button ion-button block (click)="user()" class="homebutton">Passenger</button>
+    <h2 style = "text-align: center;">You have selected Shuttle {{selectedShuttle}} </h2>
+
+
+    <button ion-button block (click)="user()" class="homebutton">Passenger</button>
+  </ion-item-group>
+
+
+
+
 </ion-content>

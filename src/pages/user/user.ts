@@ -1,8 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {Distance} from "../../providers/distance";
-
-import {Database} from '@ionic/cloud-angular';
-import {LoadingController, ToastController} from "ionic-angular";
+import {LoadingController, ToastController, NavParams} from "ionic-angular";
+import {Backand} from "../../providers/backand";
 
 declare var google;
 @Component({
@@ -18,44 +16,26 @@ export class UserPage {
   longitude_user: any;
   watch_user: any;
   title: any = 'user';
-  public driverlat: number = 0;
-  public driverlng: number = 0;
+  public driverlat: any;
+  public driverlng: any;
   loader:any;
+  shuttle:any;
 
-  constructor(public dist: backand,public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+  constructor(public loadingCtrl: LoadingController, private toastCtrl: ToastController, public back : Backand,
+              public navParams: NavParams) {
 
-
-    /*this.db.connect();*/
+    this.shuttle = navParams.get('shuttle');
+    this.latitude_user = this.back.userlat;
+    this.longitude_user = this.back.userlng;
     this.loader = this.loadingCtrl.create({
       content: "Please wait..."
     });
     this.loader.present();
-    this.latitude_user = this.dist.userlat;
-    this.longitude_user = this.dist.userlng;
 
-    this.db.onConnected().subscribe( (status) => {
-
-      this.db.collection('users').find('driver1').fetch().defaultIfEmpty().subscribe(
-        (msg) => {
-          console.log(msg)
-          this.driverlat = msg.latitude;
-          this.driverlng = msg.longitude;
-          this.initMap();
-        }
-      );
-
-    });
-
-    this.db.onSocketError().subscribe( (status) => {
-      // Display connecting spinner
-      console.log(status.type); // reconnecting
-      this.loader.dismiss();
-      let toast = this.toastCtrl.create({
-        message: 'Something went wrong!',
-        duration: 3000,
-        position: 'bottom'
-      });
-      toast.present();
+    this.back.getShuttleLocation(this.shuttle).subscribe((data) => {
+      this.driverlat = data.lat;
+      this.driverlng = data.lng;
+      this.initMap();
     });
 
   }
@@ -80,7 +60,7 @@ export class UserPage {
     });
     this.calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
 
-    this.dist.getDistance(this.latitude_user, this.longitude_user, this.driverlat, this.driverlng).then(res => {
+    this.back.getDistance(this.latitude_user, this.longitude_user, this.driverlat, this.driverlng).then(res => {
       this.location = "Shuttle is " + res.distance.text + " away, " + res.duration.text + " to reach";
       this.title = res.distance.text + " ," + res.duration.text + " away";
     })

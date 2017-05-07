@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {Distance} from "../../providers/distance";
 import { NavController } from 'ionic-angular';
 import {DriverPage} from "../driver/driver";
 import {UserPage} from "../user/user";
+import {Backand} from "../../providers/backand";
 
 @Component({
   selector: 'page-home',
@@ -10,18 +10,17 @@ import {UserPage} from "../user/user";
 })
 export class HomePage {
 
-shuttle_num = [1,2,3,4,5,6,7,8,9,10];
-
- selectedShuttle = this.shuttle_num[0];
-
-  constructor(public navCtrl: NavController, public dist:backand) {
-    this.dist.getuserLocation();
+  selectedShuttle:any = 1;
+  constructor(public navCtrl: NavController, public back:Backand) {
+    this.back.getuserLocation();
   }
 
   driver(){
     this.navCtrl.push(DriverPage);
   }
   user(){
-    this.navCtrl.push(UserPage);
+    this.navCtrl.push(UserPage, {
+      shuttle : this.selectedShuttle
+    });
   }
 }

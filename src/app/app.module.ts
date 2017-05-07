@@ -9,6 +9,7 @@ import {UserPage} from "../pages/user/user";
 import {DriverPage} from "../pages/driver/driver";
 import {Backand} from "../providers/backand";
 import {HttpModule} from '@angular/http' ;
+import {Geolocation} from "@ionic-native/geolocation";
 
 @NgModule({
   declarations: [
@@ -25,13 +26,16 @@ import {HttpModule} from '@angular/http' ;
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    UserPage,
+    DriverPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Backand
+    Backand,
+    Geolocation
 
   ]
 })

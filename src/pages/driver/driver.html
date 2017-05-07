@@ -15,7 +15,6 @@
 
 <ion-content padding>
 
-  <ion-item>
     <ion-item>
      <ion-label>Shuttle</ion-label>
      <ion-select [(ngModel)]="selectedShuttle" interface="popover">
@@ -28,9 +27,8 @@
      </ion-select>
    </ion-item>
 
-<p>You have selected Shuttle {{selectedShuttle}} </p>
+<h2 style = "text-align: center;">You have selected Shuttle {{selectedShuttle}} </h2>
 
-</ion-item>
   <button ion-button block (click)="startTracking()" class="driverbutton">Start Shift</button>
   <button ion-button block (click)="stopTracking()" class="driverbutton">Stop Shift</button>
 

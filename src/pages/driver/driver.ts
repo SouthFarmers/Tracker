@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import {Backand} from "../../providers/backand";
 
-
-/*
-  Generated class for the Driver page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-driver',
   templateUrl: 'driver.html'
@@ -21,9 +15,9 @@ export class DriverPage {
   longitude:any;
 
 
-   selectedShuttle:string = "1";
+   selectedShuttle:any = 1;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, public back: Backand) {
 
 
 
@@ -40,19 +34,16 @@ export class DriverPage {
       this.divBullets.style.display = 'none';
 
     let options = { enableHighAccuracy: true };
-    this.watch = Geolocation.watchPosition(options);
-    this.watch.subscribe((data) => {
+    this.watch = this.geolocation.watchPosition(options).subscribe((data) => {
 
       this.latitude = data.coords.latitude;
       this.longitude = data.coords.longitude;
+      this.back.updateShuttleLoc(this.selectedShuttle, this.latitude, this.longitude).subscribe(
+        data => {
 
-    /* update query id,driverlat,driverlong */
- /* https://api.backand.com/1/query/data/updateshuttle?parameters=%7B%22id%22:%22%5C%222%5C%22%22,%22driverlat%22:%2255.66%22,%22driverlong%22:%2266.55%22%7D */
-
-
-
-/* select query*/
-/* https://api.backand.com/1/query/data/getshuttle?parameters=%7B%22id%22:%221%22%7D */
+        },
+        err => this.logError(err)
+      );
 
     });
 
@@ -61,7 +52,11 @@ export class DriverPage {
   stopTracking(){
     this.divAlpha.style.display = 'none';
     this.divBullets.style.display = 'block';
-    //this.watch.unsubscribe();
+    this.watch.unsubscribe
+  }
+
+  public logError(err: TemplateStringsArray) {
+    console.error('Error: ' + err);
   }
 
 }
